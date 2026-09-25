@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Research Paper Placeholder">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research Paper Placeholder</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+          integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+          crossorigin="anonymous"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!--
+  Components marked with the "is-hidden" class are kept as reusable building
+  blocks but are not shown yet. Remove "is-hidden" to display one.
+-->
+
+<!-- Navbar (hidden). -->
+<nav class="navbar is-hidden" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="#">
+            Project 1
+          </a>
+          <a class="navbar-item" href="#">
+            Project 2
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+<!--/ Navbar. -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Research Paper Placeholder</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Anonymous Authors</span>
+          </div>
+
+          <!-- Named authors with affiliations (hidden until de-anonymization). -->
+          <div class="is-size-5 publication-authors is-hidden">
+            <span class="author-block">
+              <a href="#">Author One</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#">Author Two</a><sup>2</sup>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors is-hidden">
+            <span class="author-block"><sup>1</sup>Affiliation One,</span>
+            <span class="author-block"><sup>2</sup>Affiliation Two</span>
+          </div>
+          <!--/ Named authors. -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- arXiv Link (hidden). -->
+              <span class="link-block is-hidden">
+                <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link (hidden). -->
+              <span class="link-block is-hidden">
+                <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- TODO: replace with teaser video, e.g.
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4" type="video/mp4">
+      </video>
+      -->
+      <div class="placeholder-box">Teaser video / figure placeholder</div>
+      <h2 class="subtitle has-text-centered">
+        [Teaser caption placeholder.]
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <!-- TODO: replace each placeholder with a result video, e.g.
+        <video poster="" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/result1.mp4" type="video/mp4">
+        </video>
+        -->
+        <div class="item">
+          <div class="placeholder-box">Result video 1</div>
+        </div>
+        <div class="item">
+          <div class="placeholder-box">Result video 2</div>
+        </div>
+        <div class="item">
+          <div class="placeholder-box">Result video 3</div>
+        </div>
+        <div class="item">
+          <div class="placeholder-box">Result video 4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            [Abstract placeholder.]
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <!-- TODO: replace with embedded video, e.g.
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        -->
+        <div class="placeholder-box">Paper video placeholder</div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Method. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            [Method overview placeholder.]
+          </p>
+        </div>
+        <div class="placeholder-box">Method figure placeholder</div>
+      </div>
+    </div>
+    <!--/ Method. -->
+
+    <!-- Results. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            [Results placeholder.]
+          </p>
+        </div>
+        <div class="placeholder-box">Results figure / table placeholder</div>
+      </div>
+    </div>
+    <!--/ Results. -->
+
+    <!-- Two-column media (hidden). -->
+    <div class="columns is-centered is-hidden">
+
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Left Column Title</h2>
+          <p>
+            [Description placeholder.]
+          </p>
+          <!-- <video id="left-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/left.mp4" type="video/mp4">
+          </video> -->
+          <div class="placeholder-box">Left video placeholder</div>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2 class="title is-3">Right Column Title</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              [Description placeholder.]
+            </p>
+            <!-- <video id="right-video" controls playsinline height="100%">
+              <source src="./static/videos/right.mp4" type="video/mp4">
+            </video> -->
+            <div class="placeholder-box">Right video placeholder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Two-column media. -->
+
+    <!-- Interpolation slider + centered video (hidden). -->
+    <div class="columns is-centered is-hidden">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Section Title</h2>
+
+        <!-- Interpolation slider. Set INTERP_BASE / NUM_INTERP_FRAMES in
+             static/js/index.js and put frames under static/interpolation/. -->
+        <h3 class="title is-4">Interpolation</h3>
+        <div class="content has-text-justified">
+          <p>
+            [Description placeholder. Use the slider to move between the start and end frames.]
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <div class="placeholder-box">Start frame</div>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <div class="placeholder-box">End frame</div>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <br/>
+        <!--/ Interpolation slider. -->
+
+        <!-- Centered video. -->
+        <h3 class="title is-4">Centered Video</h3>
+        <div class="content has-text-justified">
+          <p>
+            [Description placeholder.]
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <!-- <video id="centered-video" controls muted preload playsinline width="75%">
+            <source src="./static/videos/centered.mp4" type="video/mp4">
+          </video> -->
+          <div class="placeholder-box">Centered video placeholder</div>
+        </div>
+        <!--/ Centered video. -->
+
+      </div>
+    </div>
+    <!--/ Interpolation slider + centered video. -->
+
+    <!-- Related work (hidden). -->
+    <div class="columns is-centered is-hidden">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            [Related work placeholder, e.g. <a href="#">Paper title</a> ...]
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Related work. -->
+
+  </div>
+</section>
+
+
+<!-- BibTeX (disabled until the paper can be cited). -->
+<!--
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{placeholder,
+  author    = {Author Names},
+  title     = {Research Paper Placeholder},
+  journal   = {Venue},
+  year      = {Year},
+}</code></pre>
+  </div>
+</section>
+-->
+
+
+<footer class="footer">
+  <div class="container">
+    <!-- Footer icon links (hidden). -->
+    <div class="content has-text-centered is-hidden">
+      <a class="icon-link" href="#">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="#">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!--/ Footer icon links. -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This website is adapted from the <a href="https://nerfies.github.io">Nerfies</a>
+            project page (<a href="https://github.com/nerfies/nerfies.github.io">source code</a>),
+            licensed under a <a rel="license"
+                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
