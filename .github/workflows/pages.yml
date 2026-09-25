@@ -1,0 +1,95 @@
+name: Deploy site
+
+on:
+  # Anonymity scan on every PR into main (no deploy).
+  pull_request:
+    branches: [main]
+  # Merging a PR pushes to main, which deploys.
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Stage public files
+        run: .github/scripts/stage-site.sh
+
+      - name: Anonymity scan
+        env:
+          # Optional secret: extra forbidden terms, one per line.
+          ANON_DENYLIST: ${{ secrets.ANON_DENYLIST }}
+        run: .github/scripts/anon-scan.sh _site
+
+      - name: Configure Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the site is publicly reachable and exposes only site files
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          url="${PAGE_URL%/}/"
+          echo "Checking $url"
+
+          # Pages can take a minute to serve a new deployment.
+          for i in $(seq 1 20); do
+            code=$(curl -s -o page.html -w '%{http_code}' "$url?nocache=$GITHUB_RUN_ID" || true)
+            if [[ "$code" == "200" ]] && grep -q "Research Paper Placeholder" page.html; then
+              echo "Site is publicly accessible (HTTP $code)."
+              break
+            fi
+            if [[ $i -eq 20 ]]; then
+              echo "::error::Site not publicly accessible or content mismatch (last HTTP $code)."
+              exit 1
+            fi
+            sleep 15
+          done
+
+          # Repository-only files must not be served.
+          for path in README.md AGENTS.md CLAUDE.md .github/workflows/pages.yml .gitignore; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$url$path")
+            if [[ "$code" != "404" ]]; then
+              echo "::error::$path is publicly served (HTTP $code)."
+              exit 1
+            fi
+          done
+          echo "Repository-only files are not served."
