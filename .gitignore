@@ -1,0 +1,8 @@
+.DS_store
+.idea
+.playwright-mcp
+_site
+
+# De-anonymized material stays local and is never committed.
+.anon-denylist
+local/
