@@ -9,17 +9,27 @@ behavior.
 
 Everything committed or pushed — files, history, branch names, commit messages,
 PR titles and descriptions — is publicly visible, not just the deployed site.
+**Any push is public.** Never push without the authors' explicit go-ahead for
+that specific push.
 
-- **All de-anonymized information stays local.** This includes the paper
-  title, method name, method description, results, figures, videos, citation,
-  author names, emails, affiliations, and anything else that identifies the
-  paper or its authors.
-- Keep such material only in gitignored locations:
-  - `local/` for drafts, figures, videos, and other paper material;
-  - `.anon-denylist` for the forbidden terms used by the anonymity scan.
-- Never `git add -f` an ignored file, and never copy paper material into
-  tracked files, until the authors explicitly approve its release.
-- Before every commit, review `git diff --cached` for identifying content.
+- **All de-anonymized information stays local.** Author names, emails,
+  usernames, affiliations, acknowledgements, funding, lab or location details,
+  and anything else that identifies the authors must never be committed.
+- **Paper content** (title, method, results, figures, videos) goes into tracked
+  files only once the authors explicitly approve its release, and only as it
+  appears on the site. Paper sources, drafts, raw videos, and other unreleased
+  material stay local.
+- Keep local-only material in gitignored locations:
+  - `local/` for drafts, raw assets, and working files;
+  - `.anon-denylist` for the identity terms used by the anonymity scan.
+- Never `git add -f` an ignored file.
+- Paper sources can contain reviewer notes or macros with author names
+  (e.g. `\name{...}` comments). Never copy text from them without checking.
+- Media must be stripped of metadata before committing: phone videos and
+  photos carry GPS location, device model, and capture time (for example,
+  re-encode with ffmpeg `-map_metadata -1`). The anonymity scan checks for it.
+- Before every commit, review `git diff --cached` for identifying content and
+  run the anonymity scan.
 
 ## Workflow
 
@@ -63,8 +73,8 @@ PR titles and descriptions — is publicly visible, not just the deployed site.
   reachable and that repository-only files are not served. PRs run only the
   anonymity scan.
 - Only `index.html` and `static/` are published (`.github/scripts/stage-site.sh`).
-- The anonymity scan reads forbidden terms from the `ANON_DENYLIST` repository
-  secret in CI and from the local `.anon-denylist` file; it fails in CI if no
-  terms are configured. Keep both lists in sync, one term per line.
+- The anonymity scan reads forbidden identity terms from the `ANON_DENYLIST`
+  repository secret in CI and from the local `.anon-denylist` file; it fails
+  in CI if no terms are configured. Keep both lists in sync, one term per line.
 - Run the scan locally before opening a PR:
   `.github/scripts/stage-site.sh && .github/scripts/anon-scan.sh`.
