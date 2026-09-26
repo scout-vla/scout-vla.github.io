@@ -57,8 +57,9 @@ that specific push.
 ## Site
 
 - Static site (Bulma + jQuery), no build step. Preview locally with
-  `python3 -m http.server 8000` from the repo root, then open
-  http://localhost:8000.
+  `python3 scripts/serve.py 8000` from the repo root, then open
+  http://localhost:8000. Do not use `python3 -m http.server`: it has no
+  byte-range support, so videos fail to load in Chrome.
 - Reusable components are kept in `index.html` with the Bulma `is-hidden`
   class; remove the class to show one rather than deleting it. HTML comments
   and hidden components are public in the page source, so they must contain

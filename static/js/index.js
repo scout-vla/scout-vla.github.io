@@ -38,31 +38,80 @@ function clearOutcomes(panel) {
 // Seconds all results stay visible before the group restarts.
 var RESULT_HOLD_MS = 3000;
 
+// A clip is only loaded while its task is visible; hidden tasks release their
+// downloads so bandwidth (and the browser's per-host connections) go to the
+// clips being watched.
+function loadVideo(v) {
+  var source = $(v).find('source');
+  if (!source.attr('src') && source.attr('data-src')) {
+    source.attr('src', source.attr('data-src'));
+    v.preload = 'auto';
+    v.load();
+  } else if (v.preload === 'none') {
+    v.preload = 'auto';
+    v.load();
+  }
+}
+
+function unloadVideo(v) {
+  var source = $(v).find('source');
+  v.pause();
+  if (source.attr('src')) {
+    source.attr('data-src', source.attr('src')).removeAttr('src');
+    v.removeAttribute('src');
+    v.load();
+  }
+}
+
+// Seconds to wait for every clip before starting without the stragglers; they
+// join (and are pulled into sync) as soon as they can play.
+var START_TIMEOUT_MS = 8000;
+
 function startTogether(panel) {
   var videos = $(panel).find('video').get();
   var token = {};
+  var deadline = Date.now() + START_TIMEOUT_MS;
   $(panel).data('playToken', token);
   clearTimeout($(panel).data('restartTimer'));
   clearOutcomes(panel);
   videos.forEach(function(v) {
+    $(v).data('retries', 0);
+    loadVideo(v);
     v.pause();
-    v.currentTime = 0;
-    if (v.preload === 'none') { v.preload = 'auto'; v.load(); }
+    if (v.readyState > 0) { v.currentTime = 0; }
   });
+  var play = function(v) {
+    var promise = v.play();
+    if (promise !== undefined) { promise.catch(function() {}); }
+  };
   var waitUntilReady = function() {
     if ($(panel).data('playToken') !== token) { return; }
     // Paused videos only buffer the current frame, so wait for each seek to
     // finish (HAVE_CURRENT_DATA) rather than for data ahead of it.
-    if (videos.every(function(v) { return !v.seeking && v.readyState >= 2; })) {
-      videos.forEach(function(v) {
-        var promise = v.play();
-        if (promise !== undefined) { promise.catch(function() {}); }
+    var ready = videos.filter(function(v) { return !v.seeking && v.readyState >= 2; });
+    if (ready.length === videos.length || (Date.now() > deadline && ready.length > 0)) {
+      ready.forEach(play);
+      videos.filter(function(v) { return ready.indexOf(v) < 0; }).forEach(function(v) {
+        $(v).one('canplay', function() {
+          if ($(panel).data('playToken') === token) { play(v); }
+        });
       });
     } else {
       setTimeout(waitUntilReady, 100);
     }
   };
   waitUntilReady();
+}
+
+// Retry a clip whose download failed (e.g. a dropped connection).
+function retryVideo(v) {
+  var panel = $(v).closest('.task-panel');
+  var retries = $(v).data('retries') || 0;
+  if (panel.hasClass('is-hidden') || retries >= 2) { return; }
+  $(v).data('retries', retries + 1);
+  setTimeout(function() {
+    if (!panel.hasClass('is-hidden')) { v.load(); }
+  }, 1000 * (retries + 1));
 }
 
 // Keep playing clips in step: if one falls behind (e.g. while buffering),
@@ -81,7 +130,8 @@ function correctDrift(panel) {
 function stopPanel(panel) {
   $(panel).data('playToken', null);
   clearTimeout($(panel).data('restartTimer'));
-  $(panel).find('video').each(function() { this.pause(); });
+  clearOutcomes(panel);
+  $(panel).find('video').each(function() { unloadVideo(this); });
 }
 
 function showTask(task) {
@@ -128,6 +178,10 @@ $(document).ready(function() {
     });
     $('#restart-videos').click(function() {
       startTogether($('.task-panel').not('.is-hidden'));
+    });
+    // With <source> children, load failures fire "error" on the source.
+    $('.task-panel video source').on('error', function() {
+      retryVideo($(this).closest('video').get(0));
     });
     $('.task-panel video').on('ended', function() {
       showOutcome(this);

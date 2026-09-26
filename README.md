@@ -10,12 +10,14 @@ The site is static (Bulma + jQuery). It needs no Node.js, build step, or
 dependencies. From the repository root:
 
 ```bash
-python3 -m http.server 8000
+python3 scripts/serve.py 8000
 ```
 
-Then open http://localhost:8000. Any static file server works; opening
-`index.html` directly also mostly works, but a server matches how GitHub Pages
-serves the site (videos in particular).
+Then open http://localhost:8000. `scripts/serve.py` is Python's built-in file
+server plus byte-range (HTTP 206) support, which browsers need to stream the
+videos. Plain `python3 -m http.server` lacks it: Chrome then keeps stalled
+video downloads open, hits its per-host connection limit, and some clips never
+load. GitHub Pages supports ranges, so the deployed site is unaffected.
 
 ## Layout
 
@@ -26,6 +28,7 @@ static/js/index.js          carousel, task tabs, video sync
 static/images/              figures
 static/videos/<task>/       <method>.mp4 + <method>.jpg poster
 scripts/encode-videos.sh    re-encode raw videos for the web
+scripts/serve.py            local preview server with range support
 .github/workflows/pages.yml anonymity scan on PRs, deploy on merge to main
 ```
 
