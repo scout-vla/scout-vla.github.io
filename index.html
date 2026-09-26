@@ -2,9 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="Research Paper Placeholder">
+  <meta name="description"
+        content="SCOUT refines pre-trained vision-language-action (VLA) policies online through critic-guided Schrödinger transport.">
+  <meta name="keywords" content="SCOUT, VLA, vision-language-action, Schrödinger bridge, online reinforcement learning, robot manipulation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Research Paper Placeholder</title>
+  <title>SCOUT: Critic-Guided Schrödinger Transport for Online VLA Refinement</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -16,7 +18,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="icon" href="data:,">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
           integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
@@ -75,9 +77,12 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Research Paper Placeholder</h1>
+          <h1 class="title is-1 publication-title"><span class="method-name">SCOUT</span>: Critic-Guided Schrödinger Transport<br>for Online VLA Refinement</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">Anonymous Authors</span>
+          </div>
+          <div class="is-size-6 publication-venue-line">
+            <span>Under review</span>
           </div>
 
           <!-- Named authors with affiliations (hidden until de-anonymization). -->
@@ -114,8 +119,8 @@
                   <span>arXiv</span>
                 </a>
               </span>
-              <!-- Video Link. -->
-              <span class="link-block">
+              <!-- Video Link (hidden). -->
+              <span class="link-block is-hidden">
                 <a class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
@@ -153,14 +158,12 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- TODO: replace with teaser video, e.g.
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4" type="video/mp4">
-      </video>
-      -->
-      <div class="placeholder-box">Teaser video / figure placeholder</div>
+      <img src="./static/images/overview.png" class="figure-image"
+           alt="SCOUT overview: candidate generation around the VLA reference action, critic-weighted training of a point-source Schrödinger bridge, and two-step inference on real-world tasks.">
       <h2 class="subtitle has-text-centered">
-        [Teaser caption placeholder.]
+        <span class="method-name">SCOUT</span> refines a frozen VLA's action chunk online: a critic
+        weights candidate corrections during training, and the deployed actor needs only two small
+        network evaluations per decision.
       </h2>
     </div>
   </div>
@@ -171,24 +174,34 @@
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
-        <!-- TODO: replace each placeholder with a result video, e.g.
-        <video poster="" autoplay controls muted loop playsinline height="100%">
-          <source src="./static/videos/result1.mp4" type="video/mp4">
-        </video>
-        -->
         <div class="item">
-          <div class="placeholder-box">Result video 1</div>
+          <video poster="./static/videos/cube-stacking/scout.jpg" autoplay muted loop playsinline preload="metadata">
+            <source src="./static/videos/cube-stacking/scout.mp4" type="video/mp4">
+          </video>
+          <p class="carousel-caption">Cube-Stacking</p>
         </div>
         <div class="item">
-          <div class="placeholder-box">Result video 2</div>
+          <video poster="./static/videos/ethernet-insertion/scout.jpg" autoplay muted loop playsinline preload="metadata">
+            <source src="./static/videos/ethernet-insertion/scout.mp4" type="video/mp4">
+          </video>
+          <p class="carousel-caption">Ethernet-Insertion</p>
         </div>
         <div class="item">
-          <div class="placeholder-box">Result video 3</div>
+          <video poster="./static/videos/lego-click/scout.jpg" autoplay muted loop playsinline preload="metadata">
+            <source src="./static/videos/lego-click/scout.mp4" type="video/mp4">
+          </video>
+          <p class="carousel-caption">LEGO-Click</p>
         </div>
         <div class="item">
-          <div class="placeholder-box">Result video 4</div>
+          <video poster="./static/videos/doll-throwing/scout.jpg" autoplay muted loop playsinline preload="metadata">
+            <source src="./static/videos/doll-throwing/scout.mp4" type="video/mp4">
+          </video>
+          <p class="carousel-caption">Doll-Throwing</p>
         </div>
       </div>
+      <p class="has-text-centered carousel-note">
+        <span class="method-name">SCOUT</span> on the four real-world tasks (real-time playback).
+      </p>
     </div>
   </div>
 </section>
@@ -202,23 +215,43 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            [Abstract placeholder.]
+            Contact-rich and dynamic manipulation often require well-crafted refinement methods
+            that can learn from sparse rewards while preserving efficient execution beyond a large
+            pretrained policy. We introduce <span class="method-name">SCOUT</span>, a lightweight
+            framework for refining pre-trained vision-language-action (VLA) policies online through
+            critic-guided Schrödinger transport.
+          </p>
+          <p>
+            <span class="method-name">SCOUT</span> formulates policy improvement as a Schrödinger
+            bridge from the VLA's reference action chunk to a distribution of promising corrections,
+            where a critic proposes and reweights multiple candidate action chunks, thereby
+            constructing a training target that captures coordinated changes across action space
+            and time. We exploit the point-source structure induced by conditioning on the VLA
+            reference action, enabling tractable bridge regression toward an online critic-weighted
+            target. This enables simulation-free learning through endpoint regression on Brownian
+            interpolants without iterative coupling training.
+          </p>
+          <p>
+            We evaluate <span class="method-name">SCOUT</span> on simulated benchmarks and
+            real-world precise manipulation tasks. <span class="method-name">SCOUT</span> improves
+            success rates over RLT and DSRL baseline methods. It achieves comparable measured
+            inference latency to RLT and improves real-world active-execution throughput over RLT
+            and both DSRL variants. Together, these results demonstrate that reference-conditioned
+            action transport strengthens effective online refinement with low deployment overhead.
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
+    <!-- Paper video (hidden). -->
+    <div class="columns is-centered has-text-centered is-hidden">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Video</h2>
-        <!-- TODO: replace with embedded video, e.g.
-        <div class="publication-video">
+        <!-- <div class="publication-video">
           <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0&amp;showinfo=0"
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-        -->
+        </div> -->
         <div class="placeholder-box">Paper video placeholder</div>
       </div>
     </div>
@@ -227,36 +260,372 @@
 </section>
 
 
+<section class="section section-alt" id="real-world">
+  <div class="container is-max-desktop">
+
+    <!-- Real-world comparisons. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Real-World Comparisons</h2>
+        <div class="content has-text-justified">
+          <p>
+            We refine a frozen &pi;<sub>0.5</sub> policy on a bimanual YAM platform across four
+            tasks spanning long-horizon, precise, and dynamic manipulation. Every method is trained
+            online for 300 episodes and evaluated on 50 trials. Pick a task to compare one episode
+            of each method side by side. Clips are aligned to the first robot motion and play
+            together in real time.
+          </p>
+        </div>
+        <div class="tabs is-centered is-toggle is-toggle-rounded task-tabs">
+          <ul>
+          <li class="task-tab is-active" data-task="cube-stacking"><a>Cube-Stacking</a></li>
+          <li class="task-tab" data-task="ethernet-insertion"><a>Ethernet-Insertion</a></li>
+          <li class="task-tab" data-task="lego-click"><a>LEGO-Click</a></li>
+          <li class="task-tab" data-task="doll-throwing"><a>Doll-Throwing</a></li>
+          </ul>
+        </div>
+      <div class="task-panel" data-task="cube-stacking">
+        <p class="has-text-centered task-description">
+          <span class="tag is-light">Long-horizon</span> Stack the blue, red, and yellow cubes into a tower.
+        </p>
+        <div class="columns is-variable is-2">
+          <div class="column is-half">
+            <figure class="compare-video is-ours">
+              <video muted playsinline preload="metadata"
+                     poster="./static/videos/cube-stacking/scout.jpg">
+                <source src="./static/videos/cube-stacking/scout.mp4" type="video/mp4">
+              </video>
+              <figcaption><span class="method-name">SCOUT</span> (ours)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-half">
+            <figure class="compare-video">
+              <video muted playsinline preload="metadata"
+                     poster="./static/videos/cube-stacking/base.jpg">
+                <source src="./static/videos/cube-stacking/base.mp4" type="video/mp4">
+              </video>
+              <figcaption>Base policy (&pi;<sub>0.5</sub>)</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="columns is-variable is-2">
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="metadata"
+                     poster="./static/videos/cube-stacking/rlt.jpg">
+                <source src="./static/videos/cube-stacking/rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>RLT</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="metadata"
+                     poster="./static/videos/cube-stacking/dsrl.jpg">
+                <source src="./static/videos/cube-stacking/dsrl.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="metadata"
+                     poster="./static/videos/cube-stacking/dsrl-rlt.jpg">
+                <source src="./static/videos/cube-stacking/dsrl-rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL<sub>RLT</sub></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="task-panel is-hidden" data-task="ethernet-insertion">
+        <p class="has-text-centered task-description">
+          <span class="tag is-light">Precise manipulation</span> Insert an Ethernet cable into the rightmost port of the network switch.
+        </p>
+        <div class="columns is-variable is-2">
+          <div class="column is-half">
+            <figure class="compare-video is-ours">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/ethernet-insertion/scout.jpg">
+                <source src="./static/videos/ethernet-insertion/scout.mp4" type="video/mp4">
+              </video>
+              <figcaption><span class="method-name">SCOUT</span> (ours)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-half">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/ethernet-insertion/base.jpg">
+                <source src="./static/videos/ethernet-insertion/base.mp4" type="video/mp4">
+              </video>
+              <figcaption>Base policy (&pi;<sub>0.5</sub>)</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="columns is-variable is-2">
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/ethernet-insertion/rlt.jpg">
+                <source src="./static/videos/ethernet-insertion/rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>RLT</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/ethernet-insertion/dsrl.jpg">
+                <source src="./static/videos/ethernet-insertion/dsrl.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/ethernet-insertion/dsrl-rlt.jpg">
+                <source src="./static/videos/ethernet-insertion/dsrl-rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL<sub>RLT</sub></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="task-panel is-hidden" data-task="lego-click">
+        <p class="has-text-centered task-description">
+          <span class="tag is-light">Precise manipulation</span> Press a minifigure onto its baseplate until it clicks.
+        </p>
+        <div class="columns is-variable is-2">
+          <div class="column is-half">
+            <figure class="compare-video is-ours">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/lego-click/scout.jpg">
+                <source src="./static/videos/lego-click/scout.mp4" type="video/mp4">
+              </video>
+              <figcaption><span class="method-name">SCOUT</span> (ours)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-half">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/lego-click/base.jpg">
+                <source src="./static/videos/lego-click/base.mp4" type="video/mp4">
+              </video>
+              <figcaption>Base policy (&pi;<sub>0.5</sub>)</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="columns is-variable is-2">
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/lego-click/rlt.jpg">
+                <source src="./static/videos/lego-click/rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>RLT</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/lego-click/dsrl.jpg">
+                <source src="./static/videos/lego-click/dsrl.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/lego-click/dsrl-rlt.jpg">
+                <source src="./static/videos/lego-click/dsrl-rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL<sub>RLT</sub></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="task-panel is-hidden" data-task="doll-throwing">
+        <p class="has-text-centered task-description">
+          <span class="tag is-light">Dynamic</span> Throw the doll into the red bin across the table.
+        </p>
+        <div class="columns is-variable is-2">
+          <div class="column is-half">
+            <figure class="compare-video is-ours">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/doll-throwing/scout.jpg">
+                <source src="./static/videos/doll-throwing/scout.mp4" type="video/mp4">
+              </video>
+              <figcaption><span class="method-name">SCOUT</span> (ours)</figcaption>
+            </figure>
+          </div>
+          <div class="column is-half">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/doll-throwing/base.jpg">
+                <source src="./static/videos/doll-throwing/base.mp4" type="video/mp4">
+              </video>
+              <figcaption>Base policy (&pi;<sub>0.5</sub>)</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="columns is-variable is-2">
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/doll-throwing/rlt.jpg">
+                <source src="./static/videos/doll-throwing/rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>RLT</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/doll-throwing/dsrl.jpg">
+                <source src="./static/videos/doll-throwing/dsrl.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL</figcaption>
+            </figure>
+          </div>
+          <div class="column is-one-third">
+            <figure class="compare-video">
+              <video muted playsinline preload="none"
+                     poster="./static/videos/doll-throwing/dsrl-rlt.jpg">
+                <source src="./static/videos/doll-throwing/dsrl-rlt.mp4" type="video/mp4">
+              </video>
+              <figcaption>DSRL<sub>RLT</sub></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+        <div class="has-text-centered">
+          <button class="button is-small is-rounded" id="restart-videos">
+            <span class="icon"><i class="fas fa-redo"></i></span>
+            <span>Restart together</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--/ Real-world comparisons. -->
+
+  </div>
+</section>
+
+
 <section class="section">
   <div class="container is-max-desktop">
 
-    <!-- Method. -->
+    <!-- Real-world results. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Method</h2>
-        <div class="content has-text-justified">
-          <p>
-            [Method overview placeholder.]
-          </p>
+        <h2 class="title is-3">Real-World Results</h2>
+        <img src="./static/images/real-world-results.png" class="figure-image"
+             alt="Real-world success rate and 10-minute throughput for the base policy, RLT, DSRL, DSRL-RLT, and SCOUT on four tasks.">
+        <p class="figure-caption">
+          Top: success rate (%) over 50 evaluation trials per task. Bottom: throughput, the number
+          of successful completions within 10 minutes of execution. The dashed line marks the frozen
+          base policy.
+        </p>
+        <div class="columns highlight-stats">
+          <div class="column has-text-centered">
+            <p class="stat">4 / 4</p>
+            <p>tasks with the highest throughput among all methods</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="stat">2.6&times;</p>
+            <p>Cube-Stacking throughput over the base policy (18 &rarr; 46), with episodes about
+              twice as fast</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="stat">36% &rarr; 66%</p>
+            <p>Ethernet-Insertion success, nearly doubling the base policy</p>
+          </div>
         </div>
-        <div class="placeholder-box">Method figure placeholder</div>
+        <div class="columns is-multiline result-notes">
+          <div class="column is-half">
+            <p class="result-note-title">Cube-Stacking</p>
+            <p>
+              The base policy already succeeds reliably, so <span class="method-name">SCOUT</span>'s
+              gain comes from speed: it finishes an episode in about half the time (13.3&nbsp;s vs.
+              26.1&nbsp;s) and reaches the highest throughput (46 vs. 18).
+            </p>
+          </div>
+          <div class="column is-half">
+            <p class="result-note-title">Ethernet-Insertion</p>
+            <p>
+              Here the gain comes from reliability: success nearly doubles over the base policy
+              (36% to 66%) at a similar pace, giving the highest throughput of any method.
+            </p>
+          </div>
+          <div class="column is-half">
+            <p class="result-note-title">LEGO-Click</p>
+            <p>
+              <span class="method-name">SCOUT</span> reaches the best success rate (92%) while also
+              executing faster, for the highest throughput among all methods.
+            </p>
+          </div>
+          <div class="column is-half">
+            <p class="result-note-title">Doll-Throwing</p>
+            <p>
+              A faster throw would miss the bin, so <span class="method-name">SCOUT</span> keeps the
+              pace and improves success (68% to 84%). DSRL<sub>RLT</sub>'s second VLA pass stalls
+              the arm, and it fails every throw.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-    <!--/ Method. -->
+    <!--/ Real-world results. -->
 
-    <!-- Results. -->
+
+  </div>
+</section>
+
+
+<section class="section section-alt" id="simulation">
+  <div class="container is-max-desktop">
+
+    <!-- Simulation. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Results</h2>
+        <h2 class="title is-3">Simulation Results</h2>
         <div class="content has-text-justified">
           <p>
-            [Results placeholder.]
+            We evaluate on 20 LIBERO tasks and 10 LIBERO-PRO layouts, where LIBERO-PRO exchanges
+            object-placement regions and uses held-out initial states for evaluation. All methods
+            refine the same frozen &pi;<sub>0.5</sub> checkpoint, train online for 300 episodes, and
+            are evaluated on 100 trials per task.
           </p>
         </div>
-        <div class="placeholder-box">Results figure / table placeholder</div>
+        <img src="./static/images/sim-improvement.png" class="figure-image"
+             alt="Average success-rate gain over the base policy on LIBERO and LIBERO-PRO for DSRL, DSRL-RLT, RLT, and SCOUT.">
+        <p class="figure-caption">
+          <b>Average success-rate gain over the base policy</b> (percentage points), over the 20
+          LIBERO tasks (left) and the 10 LIBERO-PRO layouts (right).
+        </p>
+        <div class="columns highlight-stats">
+          <div class="column has-text-centered">
+            <p class="stat">53.1% &rarr; 92.3%</p>
+            <p>LIBERO average success, tying DSRL<sub>RLT</sub> at half its VLA passes per
+              decision</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="stat">+57.5 pts</p>
+            <p>LIBERO-PRO gain, 7.7 points above the next best method and over 30 above RLT</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="stat">30 / 30</p>
+            <p>simulated tasks improved over the base policy; every baseline regresses on at least
+              two</p>
+          </div>
+        </div>
+
       </div>
     </div>
-    <!--/ Results. -->
+    <!--/ Simulation. -->
+
 
     <!-- Two-column media (hidden). -->
     <div class="columns is-centered is-hidden">
@@ -405,7 +774,6 @@
     </div>
   </div>
 </footer>
-
 
 </body>
 </html>

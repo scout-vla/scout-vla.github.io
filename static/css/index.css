@@ -173,3 +173,108 @@ body {
   min-height: 250px;
   border: none;
 }
+
+.publication-venue-line {
+  font-family: 'Google Sans', sans-serif;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.figure-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 0.75rem;
+  border-radius: 6px;
+}
+
+.figure-caption {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.section-alt {
+  background: #fafafa;
+}
+
+.carousel-caption {
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
+  text-align: center;
+  background: #fff;
+}
+
+.carousel-note {
+  margin-top: 0.75rem;
+  color: #555;
+}
+
+.results-carousel .item video {
+  display: block;
+  width: 100%;
+}
+
+/* Real-world comparison viewer */
+.task-tabs {
+  margin-top: 1rem;
+}
+
+.task-description {
+  margin-bottom: 1rem;
+}
+
+.compare-video {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.compare-video.is-ours {
+  border: 3px solid hsl(204, 86%, 53%);
+}
+
+.compare-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.compare-video figcaption {
+  background: #fff;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+}
+
+.compare-video.is-ours figcaption {
+  font-weight: bold;
+}
+
+.highlight-stats {
+  margin: 0.5rem 0 1.5rem;
+}
+
+.highlight-stats .stat {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: hsl(204, 86%, 45%);
+  margin-bottom: 0.25rem;
+}
+
+.result-notes {
+  margin-top: 0.5rem;
+}
+
+.result-note-title {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+#restart-videos {
+  margin-top: 1rem;
+}

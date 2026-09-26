@@ -26,8 +26,9 @@ that specific push.
 - Paper sources can contain reviewer notes or macros with author names
   (e.g. `\name{...}` comments). Never copy text from them without checking.
 - Media must be stripped of metadata before committing: phone videos and
-  photos carry GPS location, device model, and capture time (for example,
-  re-encode with ffmpeg `-map_metadata -1`). The anonymity scan checks for it.
+  photos carry GPS location, device model, and capture time.
+  `scripts/encode-videos.sh` removes it for videos (otherwise re-encode with
+  ffmpeg `-map_metadata -1`). The anonymity scan checks for it.
 - Before every commit, review `git diff --cached` for identifying content and
   run the anonymity scan.
 
@@ -62,8 +63,7 @@ that specific push.
   class; remove the class to show one rather than deleting it. HTML comments
   and hidden components are public in the page source, so they must contain
   placeholders only.
-- The title stays "Research Paper Placeholder" and the BibTeX section stays
-  commented out until the authors say otherwise.
+- The BibTeX section stays commented out until the authors say otherwise.
 - Keep the footer attribution to https://nerfies.github.io (CC BY-SA 4.0).
 
 ## Deployment
@@ -78,3 +78,11 @@ that specific push.
   in CI if no terms are configured. Keep both lists in sync, one term per line.
 - Run the scan locally before opening a PR:
   `.github/scripts/stage-site.sh && .github/scripts/anon-scan.sh`.
+
+## Videos
+
+- Raw videos stay outside the repo. Re-encode them with
+  `scripts/encode-videos.sh <raw-video-dir>` (1080p, 30 fps, H.264, no audio,
+  no metadata) into `static/videos/<task>/<method>.mp4`.
+- Keep each file well under GitHub's 50 MB warning size. Videos are committed
+  as regular files, not Git LFS: the Pages workflow does not fetch LFS objects.
