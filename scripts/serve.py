@@ -7,24 +7,46 @@ Chrome keeps stalled connections open and runs out of its per-host connection
 limit when several large videos load at once. GitHub Pages supports ranges, so
 this matches production behaviour.
 
-    python3 scripts/serve.py [port]      # default 8000, serves the repo root
+    python3 scripts/serve.py [port]      # default 8000
+
+Only what the deployed site publishes (index.html and static/) is served, and
+only on localhost: the repo root also holds private, gitignored files such as
+.anon-denylist and local/.
 """
 import os
+import posixpath
 import re
 import sys
+import urllib.parse
 from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RANGE_RE = re.compile(r"bytes=(\d*)-(\d*)$")
+# Mirrors .github/scripts/stage-site.sh: everything else stays private.
+PUBLIC_FILES = {"/", "/index.html"}
+PUBLIC_PREFIXES = ("/static/",)
 
 
 class RangeRequestHandler(SimpleHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
+    def is_public(self):
+        path = urllib.parse.unquote(urllib.parse.urlsplit(self.path).path)
+        norm = posixpath.normpath(path)
+        if path.endswith("/") and norm != "/":
+            norm += "/"
+        path = norm
+        if any(part.startswith(".") for part in path.split("/") if part):
+            return False
+        return path in PUBLIC_FILES or path.startswith(PUBLIC_PREFIXES)
+
     def send_head(self):
         self._range = None
+        if not self.is_public():
+            self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+            return None
         header = self.headers.get("Range")
         path = self.translate_path(self.path)
         if not header or not os.path.isfile(path):
@@ -79,7 +101,7 @@ class RangeRequestHandler(SimpleHTTPRequestHandler):
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
     handler = partial(RangeRequestHandler, directory=ROOT)
-    with ThreadingHTTPServer(("", port), handler) as httpd:
+    with ThreadingHTTPServer(("127.0.0.1", port), handler) as httpd:
         print(f"Serving {ROOT} at http://localhost:{port}/ (Ctrl+C to stop)")
         try:
             httpd.serve_forever()
