@@ -10,10 +10,42 @@ var interp_images = [];
 // Real-world comparison viewer. Clips of one task are start-aligned, so they
 // play as a group: all start together once buffered, each holds its last
 // frame, and the group restarts together after the longest clip ends.
+// Result shown over each clip when it finishes (outcomes are hardcoded per
+// clip with data-outcome="success|fail" in index.html).
+var OUTCOME_ICONS = {
+  success: '<svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/>' +
+           '<path d="M15 27l7 7 15-15"/></svg>',
+  fail: '<svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/>' +
+        '<path d="M18 18l16 16M34 18L18 34"/></svg>'
+};
+
+function showOutcome(video) {
+  var figure = $(video).closest('.compare-video');
+  var outcome = figure.data('outcome') === 'fail' ? 'fail' : 'success';
+  var label = outcome === 'success'
+    ? 'Success &middot; ' + video.duration.toFixed(1) + '&nbsp;s'
+    : 'Failed';
+  figure.find('.outcome-overlay').remove();
+  figure.find('.video-wrap').append(
+    '<div class="outcome-overlay is-' + outcome + '">' + OUTCOME_ICONS[outcome] +
+    '<span class="outcome-label">' + label + '</span></div>');
+  figure.addClass('is-done');
+}
+
+function clearOutcomes(panel) {
+  $(panel).find('.outcome-overlay').remove();
+  $(panel).find('.compare-video').removeClass('is-done');
+}
+
+// Seconds all results stay visible before the group restarts.
+var RESULT_HOLD_MS = 3000;
+
 function startTogether(panel) {
   var videos = $(panel).find('video').get();
   var token = {};
   $(panel).data('playToken', token);
+  clearTimeout($(panel).data('restartTimer'));
+  clearOutcomes(panel);
   videos.forEach(function(v) {
     v.pause();
     v.currentTime = 0;
@@ -50,6 +82,7 @@ function correctDrift(panel) {
 
 function stopPanel(panel) {
   $(panel).data('playToken', null);
+  clearTimeout($(panel).data('restartTimer'));
   $(panel).find('video').each(function() { this.pause(); });
 }
 
@@ -99,9 +132,15 @@ $(document).ready(function() {
       startTogether($('.task-panel').not('.is-hidden'));
     });
     $('.task-panel video').on('ended', function() {
+      showOutcome(this);
       var panel = $(this).closest('.task-panel');
       if (panel.find('video').get().every(function(v) { return v.ended; })) {
-        startTogether(panel);
+        var token = panel.data('playToken');
+        panel.data('restartTimer', setTimeout(function() {
+          if (panel.data('playToken') === token && !panel.hasClass('is-hidden')) {
+            startTogether(panel);
+          }
+        }, RESULT_HOLD_MS));
       }
     });
     setInterval(function() {

@@ -278,3 +278,78 @@ body {
 #restart-videos {
   margin-top: 1rem;
 }
+
+/* Per-clip result shown when a comparison video finishes */
+.video-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.video-wrap video {
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.compare-video.is-done .video-wrap video {
+  filter: blur(3px) brightness(0.8);
+  /* Slight zoom hides the dark fringe blur leaves at the edges. */
+  transform: scale(1.05);
+}
+
+.outcome-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: outcome-in 0.35s ease-out;
+  pointer-events: none;
+}
+
+.outcome-overlay svg {
+  width: 22%;
+  max-width: 88px;
+  min-width: 40px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.outcome-overlay svg circle {
+  stroke: none;
+}
+
+.outcome-overlay svg path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.outcome-overlay.is-success svg circle {
+  fill: #23a55a;
+}
+
+.outcome-overlay.is-fail svg circle {
+  fill: #e03b3b;
+}
+
+.outcome-label {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+}
+
+@keyframes outcome-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outcome-overlay { animation: none; }
+  .video-wrap video { transition: none; }
+}
