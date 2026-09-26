@@ -6,3 +6,5 @@ _site
 # De-anonymized material stays local and is never committed.
 .anon-denylist
 local/
+__pycache__/
+*.pyc
