@@ -22,9 +22,7 @@ var OUTCOME_ICONS = {
 function showOutcome(video) {
   var figure = $(video).closest('.compare-video');
   var outcome = figure.data('outcome') === 'fail' ? 'fail' : 'success';
-  var label = outcome === 'success'
-    ? 'Success &middot; ' + video.duration.toFixed(1) + '&nbsp;s'
-    : 'Failed';
+  var label = outcome === 'success' ? 'Success' : 'Failed';
   figure.find('.outcome-overlay').remove();
   figure.find('.video-wrap').append(
     '<div class="outcome-overlay is-' + outcome + '">' + OUTCOME_ICONS[outcome] +
