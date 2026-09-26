@@ -62,6 +62,8 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v7
+
       - name: Check the site is publicly reachable and exposes only site files
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
@@ -70,11 +72,12 @@ jobs:
           url="${PAGE_URL%/}/"
           echo "Checking $url"
 
-          # Pages can take a minute to serve a new deployment.
+          # Pages can take a minute to serve a new deployment; wait until the
+          # live page is exactly the committed index.html.
           for i in $(seq 1 20); do
             code=$(curl -s -o page.html -w '%{http_code}' "$url?nocache=$GITHUB_RUN_ID" || true)
-            if [[ "$code" == "200" ]] && grep -q "Research Paper Placeholder" page.html; then
-              echo "Site is publicly accessible (HTTP $code)."
+            if [[ "$code" == "200" ]] && cmp -s page.html index.html; then
+              echo "Site is publicly accessible and up to date (HTTP $code)."
               break
             fi
             if [[ $i -eq 20 ]]; then
@@ -85,7 +88,8 @@ jobs:
           done
 
           # Repository-only files must not be served.
-          for path in README.md AGENTS.md CLAUDE.md .github/workflows/pages.yml .gitignore; do
+          for path in README.md AGENTS.md CLAUDE.md .github/workflows/pages.yml .gitignore \
+                      scripts/serve.py scripts/encode-videos.sh; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$url$path")
             if [[ "$code" != "404" ]]; then
               echo "::error::$path is publicly served (HTTP $code)."
